@@ -8,21 +8,32 @@ import { selectContactsItems } from 'redux/selectors';
 import { AppContainer } from './App.styled';
 import { GlobalStyle } from './GlobalStyles.styled';
 
+import { fetchContacts } from 'redux/operations';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+
 export default function App() {
   const contacts = useSelector(selectContactsItems);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
-    <AppContainer>
-      <Section title="Add contact">
-        <ContactForm />
-      </Section>
-      {contacts.length > 0 && (
-        <Section title="Contacts">
-          <ContactList />
+    <>
+      <AppContainer>
+        <Section title="Add contact">
+          <ContactForm />
         </Section>
-      )}
+        {contacts.length > 0 && (
+          <Section title="Contacts">
+            <ContactList />
+          </Section>
+        )}
+        <GlobalStyle />
+      </AppContainer>
       <ToastContainer />
-      <GlobalStyle />
-    </AppContainer>
+    </>
   );
 }

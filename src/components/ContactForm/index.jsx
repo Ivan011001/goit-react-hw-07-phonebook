@@ -1,28 +1,33 @@
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 import { PatternFormat } from 'react-number-format';
 import { StyledForm } from './ContactForm.styled';
 
 export default function ContactForm() {
   const dispatch = useDispatch();
-  const [tel, setTel] = useState('');
+  const [phone, setPhone] = useState('');
 
   const onFormSubmit = e => {
     e.preventDefault();
     const form = e.currentTarget;
     const name = form.elements.name.value;
-    const numericTel = tel.replace(/\D/g, '');
+    const numericTel = phone.replace(/\D/g, '');
 
     if (!name || numericTel.length < 12) {
       toast.warn('Please, enter valid information');
       return;
     }
 
-    dispatch(addContact(name, tel));
+    const newContact = {
+      name,
+      phone,
+    };
+
+    dispatch(addContact(newContact));
     form.reset();
-    setTel('');
+    setPhone('');
   };
 
   return (
@@ -33,9 +38,9 @@ export default function ContactForm() {
         allowEmptyFormatting
         mask="_"
         name="tel"
-        value={tel}
+        value={phone}
         onValueChange={values => {
-          setTel(values.formattedValue);
+          setPhone(values.formattedValue);
         }}
       />
       <button>Add</button>
