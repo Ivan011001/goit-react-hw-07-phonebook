@@ -4,12 +4,12 @@ import Section from './Section';
 import ContactList from './ContactList';
 import ContactForm from './ContactForm';
 import { useSelector } from 'react-redux';
-import { getContacts } from 'redux/actions';
+import { selectContactsItems } from 'redux/selectors';
 import { AppContainer } from './App.styled';
 import { GlobalStyle } from './GlobalStyles.styled';
 
 export default function App() {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContactsItems);
 
   return (
     <AppContainer>
